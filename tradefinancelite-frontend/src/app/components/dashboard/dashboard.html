@@ -1,0 +1,50 @@
+<div class="dashboard-container">
+  <div class="header">
+    <div>
+      <h2>Trade Finance Lite Dashboard</h2>
+      <p>Welcome, {{ fullName }} ({{ role }})</p>
+    </div>
+    <div class="header-actions">
+      <button *ngIf="role === 'Maker'" (click)="goToCreate()">+ New LC</button>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  </div>
+
+  <p *ngIf="loading">Loading...</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <table *ngIf="!loading && lcs.length > 0">
+    <thead>
+      <tr>
+        <th>LC Number</th>
+        <th>Applicant</th>
+        <th>Beneficiary</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Flagged</th>
+        <th>Created By</th>
+        <th *ngIf="role === 'Checker'">Approve</th>
+        <th *ngIf="role === 'Checker'">Reject</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let lc of lcs">
+        <td>{{ lc.lcNumber }}</td>
+        <td>{{ lc.applicantName }}</td>
+        <td>{{ lc.beneficiaryName }}</td>
+        <td>{{ lc.amount }} {{ lc.currency }}</td>
+        <td><span [class]="statusClass(lc.status)">{{ lc.status }}</span></td>
+        <td>{{ lc.isFlagged ? '⚠️ Yes (' + lc.screeningScore + '%)' : 'No' }}</td>
+        <td>{{ lc.createdByName }}</td>
+        <td *ngIf="role === 'Checker'">
+          <button *ngIf="lc.status === 'PendingApproval'" class="approve-btn" (click)="approve(lc.id)">Approve</button>
+        </td>
+        <td *ngIf="role === 'Checker'">
+          <button *ngIf="lc.status === 'PendingApproval'" class="reject-btn" (click)="reject(lc.id)">Reject</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading && lcs.length === 0">No LCs found.</p>
+</div>
