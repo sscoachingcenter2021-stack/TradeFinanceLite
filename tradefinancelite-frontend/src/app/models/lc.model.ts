@@ -23,4 +23,5 @@ export interface LcResponse {
   approvedByName: string | null;
   isFlagged: boolean;
   screeningScore: number;
+  remarks: string | null;
 }

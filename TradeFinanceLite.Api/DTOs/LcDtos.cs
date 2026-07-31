@@ -22,7 +22,8 @@ public record LcResponse(
     string CreatedByName,
     string? ApprovedByName,
     bool IsFlagged,
-    int ScreeningScore
+    int ScreeningScore,
+    string? Remarks
 );
 
 public record ApproveRejectRequest(string? RemarksOrReason);

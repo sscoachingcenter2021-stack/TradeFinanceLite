@@ -44,4 +44,8 @@ export class CreateLc {
   cancel(): void {
     this.router.navigate(['/dashboard']);
   }
+
+  goBack(): void {
+    this.router.navigate(['/dashboard']);
+  }
 }

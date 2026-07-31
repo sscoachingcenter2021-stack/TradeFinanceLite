@@ -1,48 +1,63 @@
-<div class="form-container">
-  <h2>Create New Letter of Credit</h2>
-  <form (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label>Applicant Name</label>
-      <input type="text" [(ngModel)]="applicantName" name="applicantName" required />
-    </div>
-    <div class="form-group">
-      <label>Beneficiary Name</label>
-      <input type="text" [(ngModel)]="beneficiaryName" name="beneficiaryName" required />
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Amount</label>
-        <input type="number" [(ngModel)]="amount" name="amount" required />
-      </div>
-      <div class="form-group">
-        <label>Currency</label>
-        <select [(ngModel)]="currency" name="currency">
-          <option value="USD">USD</option>
-          <option value="EUR">EUR</option>
-          <option value="PKR">PKR</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Issue Date</label>
-        <input type="date" [(ngModel)]="issueDate" name="issueDate" required />
-      </div>
-      <div class="form-group">
-        <label>Expiry Date</label>
-        <input type="date" [(ngModel)]="expiryDate" name="expiryDate" required />
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Terms</label>
-      <textarea [(ngModel)]="terms" name="terms" rows="3" required></textarea>
+<div class="form-page">
+  <div class="form-container">
+    <button type="button" class="back-btn" (click)="goBack()">← Back to Dashboard</button>
+    <div class="form-header">
+      <h2>Create New Letter of Credit</h2>
+      <p>Fill in the details below to initiate a new LC request</p>
     </div>
 
-    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+    <form (ngSubmit)="onSubmit()">
+      <div class="section-label">Parties</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Applicant Name</label>
+          <input type="text" [(ngModel)]="applicantName" name="applicantName" required placeholder="e.g. Karachi Textile Mills" />
+        </div>
+        <div class="form-group">
+          <label>Beneficiary Name</label>
+          <input type="text" [(ngModel)]="beneficiaryName" name="beneficiaryName" required placeholder="e.g. Global Fabrics Ltd" />
+        </div>
+      </div>
 
-    <div class="form-actions">
-      <button type="button" class="cancel-btn" (click)="cancel()">Cancel</button>
-      <button type="submit">Create LC</button>
-    </div>
-  </form>
+      <div class="section-label">Financials</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Amount</label>
+          <input type="number" [(ngModel)]="amount" name="amount" required placeholder="0.00" />
+        </div>
+        <div class="form-group form-group-small">
+          <label>Currency</label>
+          <select [(ngModel)]="currency" name="currency">
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="PKR">PKR</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="section-label">Timeline</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Issue Date</label>
+          <input type="date" [(ngModel)]="issueDate" name="issueDate" required />
+        </div>
+        <div class="form-group">
+          <label>Expiry Date</label>
+          <input type="date" [(ngModel)]="expiryDate" name="expiryDate" required />
+        </div>
+      </div>
+
+      <div class="section-label">Terms</div>
+      <div class="form-group">
+        <textarea [(ngModel)]="terms" name="terms" rows="3" required placeholder="e.g. Sight LC, 60 days"></textarea>
+      </div>
+
+      <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" (click)="cancel()">Cancel</button>
+        <button type="submit">Create LC</button>
+      </div>
+    </form>
+  </div>
 </div>

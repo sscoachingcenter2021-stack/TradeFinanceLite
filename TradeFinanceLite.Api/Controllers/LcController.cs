@@ -102,6 +102,7 @@ public class LcController : ControllerBase
             return BadRequest("Maker cannot approve their own LC.");
 
         lc.Status = LcStatus.Approved;
+        lc.Remarks = request.RemarksOrReason;
         lc.ApprovedByUserId = CurrentUserId;
         await _db.SaveChangesAsync();
 
@@ -122,6 +123,7 @@ public class LcController : ControllerBase
             return BadRequest("Only LCs pending approval can be rejected.");
 
         lc.Status = LcStatus.Rejected;
+        lc.Remarks = request.RemarksOrReason;
         lc.ApprovedByUserId = CurrentUserId;
         await _db.SaveChangesAsync();
 
@@ -166,7 +168,8 @@ public class LcController : ControllerBase
             lc.CreatedBy?.FullName ?? "",
             lc.ApprovedBy?.FullName,
             screening?.IsFlagged ?? false,
-            screening?.MatchScore ?? 0
+            screening?.MatchScore ?? 0,
+            lc.Remarks
         );
     }
 }

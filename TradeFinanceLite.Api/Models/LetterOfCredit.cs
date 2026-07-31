@@ -19,5 +19,7 @@ public class LetterOfCredit
     public int? ApprovedByUserId { get; set; }
     public User? ApprovedBy { get; set; }
 
+    public string? Remarks { get; set; }
+
     public ICollection<ScreeningResult> ScreeningResults { get; set; } = new List<ScreeningResult>();
 }

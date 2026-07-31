@@ -1,1 +1,112 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --bg: #F5F5F9;
+  --paper: #FFFFFF;
+  --border: rgba(67, 89, 113, 0.12);
+  --primary: #696CFF;
+  --primary-dark: #5f61e6;
+  --text: #32475C;
+  --text-dim: #6E7D8D;
+  --c-total: #696CFF;
+  --c-total-2: #8F93FF;
+  --c-pending: #FFAB00;
+  --c-pending-2: #FFC94D;
+  --c-approved: #71DD37;
+  --c-approved-2: #8CE99A;
+  --c-rejected: #FF3E1D;
+  --c-rejected-2: #FF7A5C;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+h1, h2, h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.bg-blobs {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+  .bg-blobs span {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.35;
+    will-change: transform;
+  }
+
+    .bg-blobs span:nth-child(1) {
+      width: 420px;
+      height: 420px;
+      background: var(--primary);
+      top: -120px;
+      left: -100px;
+      animation: floatA 22s ease-in-out infinite;
+    }
+
+    .bg-blobs span:nth-child(2) {
+      width: 380px;
+      height: 380px;
+      background: var(--c-approved);
+      bottom: -140px;
+      right: -80px;
+      animation: floatB 26s ease-in-out infinite;
+    }
+
+    .bg-blobs span:nth-child(3) {
+      width: 300px;
+      height: 300px;
+      background: var(--c-pending);
+      top: 40%;
+      left: 60%;
+      animation: floatC 20s ease-in-out infinite;
+    }
+
+@keyframes floatA {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(60px, 40px);
+  }
+}
+
+@keyframes floatB {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(-50px, -30px);
+  }
+}
+
+@keyframes floatC {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(-40px, 30px) scale(1.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-blobs span {
+    animation: none;
+  }
+}

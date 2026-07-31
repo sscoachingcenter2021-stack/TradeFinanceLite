@@ -1,18 +1,57 @@
 <div class="dashboard-container">
   <div class="header">
     <div>
-      <h2>Trade Finance Lite Dashboard</h2>
-      <p>Welcome, {{ fullName }} ({{ role }})</p>
+      <h2>Trade Finance Lite</h2>
+      <p>Welcome back, {{ fullName }} <span class="role-badge">{{ role }}</span></p>
     </div>
     <div class="header-actions">
       <button *ngIf="role === 'Maker'" (click)="goToCreate()">+ New LC</button>
       <button class="logout-btn" (click)="logout()">Logout</button>
     </div>
   </div>
-
   <p *ngIf="loading">Loading...</p>
   <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
-
+  <div class="stats-grid" *ngIf="!loading && lcs.length > 0">
+    <div class="stat-card stat-total">
+      <div class="stat-icon">📊</div>
+      <div class="stat-value">{{ totalCount }}</div>
+      <div class="stat-label">Total LCs</div>
+    </div>
+    <div class="stat-card stat-pending">
+      <div class="stat-icon">⏳</div>
+      <div class="stat-value">{{ pendingCount }}</div>
+      <div class="stat-label">Pending</div>
+    </div>
+    <div class="stat-card stat-approved">
+      <div class="stat-icon">✅</div>
+      <div class="stat-value">{{ approvedCount }}</div>
+      <div class="stat-label">Approved</div>
+    </div>
+    <div class="stat-card stat-rejected">
+      <div class="stat-icon">❌</div>
+      <div class="stat-value">{{ rejectedCount }}</div>
+      <div class="stat-label">Rejected</div>
+    </div>
+  </div>
+  <div class="charts-row" *ngIf="!loading && lcs.length > 0">
+    <div class="chart-container">
+      <h3>LC Status Breakdown</h3>
+      <canvas #statusChart width="360" height="300"></canvas>
+    </div>
+    <div class="chart-container chart-wide">
+      <h3>LCs Created Per User</h3>
+      <canvas #userChart width="600" height="280"></canvas>
+    </div>
+  </div>
+  <div class="filters" *ngIf="!loading && lcs.length > 0">
+    <input type="text" placeholder="Search by name or LC number..." [(ngModel)]="searchTerm" />
+    <select [(ngModel)]="statusFilter">
+      <option value="">All Statuses</option>
+      <option value="PendingApproval">Pending Approval</option>
+      <option value="Approved">Approved</option>
+      <option value="Rejected">Rejected</option>
+    </select>
+  </div>
   <table *ngIf="!loading && lcs.length > 0">
     <thead>
       <tr>
@@ -23,12 +62,13 @@
         <th>Status</th>
         <th>Flagged</th>
         <th>Created By</th>
+        <th>Remarks</th>
         <th *ngIf="role === 'Checker'">Approve</th>
         <th *ngIf="role === 'Checker'">Reject</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let lc of lcs">
+      <tr *ngFor="let lc of filteredLcs">
         <td>{{ lc.lcNumber }}</td>
         <td>{{ lc.applicantName }}</td>
         <td>{{ lc.beneficiaryName }}</td>
@@ -36,6 +76,7 @@
         <td><span [class]="statusClass(lc.status)">{{ lc.status }}</span></td>
         <td>{{ lc.isFlagged ? '⚠️ Yes (' + lc.screeningScore + '%)' : 'No' }}</td>
         <td>{{ lc.createdByName }}</td>
+        <td>{{ lc.remarks || '-' }}</td>
         <td *ngIf="role === 'Checker'">
           <button *ngIf="lc.status === 'PendingApproval'" class="approve-btn" (click)="approve(lc.id)">Approve</button>
         </td>
@@ -45,6 +86,5 @@
       </tr>
     </tbody>
   </table>
-
   <p *ngIf="!loading && lcs.length === 0">No LCs found.</p>
 </div>
